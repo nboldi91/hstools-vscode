@@ -10,7 +10,7 @@
 		"Other"
 	],
 	"activationEvents": [
-        "onCommand:hstools.helloWorld",
+        "onCommand:hstools.*",
 		"onLanguage:haskell",
 		"onLanguage:literate haskell"
 	],
@@ -18,8 +18,8 @@
 	"contributes": {
 		"commands": [
 			{
-				"command": "hstools.helloWorld",
-				"title": "Hello World"
+				"command": "hstools.cleanEntireDB",
+				"title": "Clean the entire hstools database"
 			}
 		]
 	},
