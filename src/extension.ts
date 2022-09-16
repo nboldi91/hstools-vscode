@@ -51,13 +51,6 @@ function activateServer() {
 		},
 	};
 
-  // vscode.workspace.onDidChangeTextDocument(function(TextDocumentChangeEvent) {
-  //   console.log(TextDocumentChangeEvent.document.fileName)
-  //   TextDocumentChangeEvent.contentChanges.forEach(change => {
-  //     console.log(change.range.start.line + ':' + change.range.start.character + '-' + change.range.end.line + ':' + change.range.end.character, '"' + change.text + '"')
-  //   });
-  // });
-
 	// Create the language client and start the client.
 	client = new LanguageClient(
 		'haskell',
