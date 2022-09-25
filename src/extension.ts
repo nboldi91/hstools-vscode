@@ -51,6 +51,9 @@ function activateServer() {
 		},
 	};
 
+	statusBarItem = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right, 100);
+  vscode.window.onDidChangeActiveTextEditor(updateStatusBarItem)
+
 	// Create the language client and start the client.
 	client = new LanguageClient(
 		'haskell',
@@ -59,6 +62,13 @@ function activateServer() {
 		clientOptions
 	);
 	client.registerProposedFeatures();
+  client.onReady().then(() => client.onNotification("ChangeFileStates", (flst: {result: { filePath: string, state: FileState }[]}) => {
+    fileStates = {}
+    flst.result.forEach(fs => {
+      fileStates[fs.filePath] = fs.state
+    });
+    updateStatusBarItem()
+  }))
 	
 	// Start the client. This will also launch the server
 	client.start();
@@ -70,4 +80,27 @@ export function deactivate() {
 		return undefined;
 	}
 	return client.stop();
+}
+
+type FileState = "edited" | "fresh"
+
+let statusBarItem: vscode.StatusBarItem;
+
+let fileStates: { [key: string]: FileState } = {};
+
+function updateStatusBarItem() {
+  if (vscode.window.activeTextEditor?.document.languageId === "haskell") {
+    const fileName = vscode.window.activeTextEditor?.document.fileName
+    const state = fileStates[fileName]
+    if (state == null) {
+      statusBarItem.text = `hstools $(error)`
+    } else if (state === 'edited') {
+      statusBarItem.text = `hstools $(warning)`
+    } else if (state === 'fresh') {
+      statusBarItem.text = `hstools $(pass)`
+    }
+    statusBarItem.show()
+  } else {
+    statusBarItem.hide()
+  }
 }
