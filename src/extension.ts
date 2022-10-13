@@ -23,7 +23,7 @@ export function activate(context: vscode.ExtensionContext) {
 }
 
 function activateServer() {
-	let serverModule = "hstools-lsp"
+	let serverModule = "hstools-lsp";
 
 	var serverExecutable = which.sync(serverModule);
 
@@ -31,9 +31,9 @@ function activateServer() {
 
 	let executableOptions = {
 		env: { ...process.env, ...serverEnvironment },
-	}
+	};
 
-	let lspArgs: string[] = []
+	let lspArgs: string[] = [];
 
 	// If the extension is launched in debug mode then the debug server options are used
 	// Otherwise the run options are used
@@ -52,7 +52,7 @@ function activateServer() {
 	};
 
 	statusBarItem = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right, 100);
-  vscode.window.onDidChangeActiveTextEditor(updateStatusBarItem)
+  vscode.window.onDidChangeActiveTextEditor(updateStatusBarItem);
 
 	// Create the language client and start the client.
 	client = new LanguageClient(
@@ -63,12 +63,12 @@ function activateServer() {
 	);
 	client.registerProposedFeatures();
   client.onReady().then(() => client.onNotification("ChangeFileStates", (flst: {result: { filePath: string, state: FileState }[]}) => {
-    fileStates = {}
+    fileStates = {};
     flst.result.forEach(fs => {
-      fileStates[fs.filePath] = fs.state
+      fileStates[fs.filePath] = fs.state;
     });
-    updateStatusBarItem()
-  }))
+    updateStatusBarItem();
+  }));
 	
 	// Start the client. This will also launch the server
 	client.start();
@@ -82,7 +82,7 @@ export function deactivate() {
 	return client.stop();
 }
 
-type FileState = "edited" | "fresh"
+type FileState = 'edited' | 'fresh' | 'missing';
 
 let statusBarItem: vscode.StatusBarItem;
 
@@ -90,17 +90,17 @@ let fileStates: { [key: string]: FileState } = {};
 
 function updateStatusBarItem() {
   if (vscode.window.activeTextEditor?.document.languageId === "haskell") {
-    const fileName = vscode.window.activeTextEditor?.document.fileName
-    const state = fileStates[fileName]
-    if (state == null) {
-      statusBarItem.text = `hstools $(error)`
+    const fileName = vscode.window.activeTextEditor?.document.fileName;
+    const state = fileStates[fileName];
+    if (!state || state === 'missing') {
+      statusBarItem.text = `hstools $(error)`;
     } else if (state === 'edited') {
-      statusBarItem.text = `hstools $(warning)`
+      statusBarItem.text = `hstools $(warning)`;
     } else if (state === 'fresh') {
-      statusBarItem.text = `hstools $(pass)`
+      statusBarItem.text = `hstools $(pass)`;
     }
-    statusBarItem.show()
+    statusBarItem.show();
   } else {
-    statusBarItem.hide()
+    statusBarItem.hide();
   }
 }
