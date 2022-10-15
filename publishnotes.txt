@@ -1,0 +1,5 @@
+https://dev.azure.com/nboldi91/
+ -> Personal access tokens -> regenerate
+
+vsce login boldizsarnemeth
+vsce publish minor
