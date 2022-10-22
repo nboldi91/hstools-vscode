@@ -63,12 +63,11 @@ function activateServer() {
 	);
 	client.registerProposedFeatures();
   client.onReady().then(() => client.onNotification("ChangeFileStates", (flst: {result: { filePath: string, state: FileState }[]}) => {
-    fileStates = {};
     flst.result.forEach(fs => {
       fileStates[fs.filePath] = fs.state;
     });
     updateStatusBarItem();
-  }));
+  })).then(() => updateStatusBarItem());
 	
 	// Start the client. This will also launch the server
 	client.start();
