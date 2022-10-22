@@ -11,7 +11,7 @@ import {
 } from 'vscode-languageclient/node';
 
 let client: LanguageClient;
-
+let fsWatcher: vscode.FileSystemWatcher;
 
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
@@ -42,12 +42,14 @@ function activateServer() {
 		debug: { command: serverExecutable, transport: TransportKind.stdio, args: lspArgs, options: executableOptions },
 	};
 
+  fsWatcher = vscode.workspace.createFileSystemWatcher("**/*.hs", false, false, false);
+
 	// Options to control the language client
 	let clientOptions: LanguageClientOptions = {
 		documentSelector: [{ scheme: 'file', language: 'haskell' }],
 		synchronize: {
 			configurationSection: 'hstools',
-      fileEvents: vscode.workspace.createFileSystemWatcher("**/*.hs", true, false, true)
+      fileEvents: fsWatcher
 		},
 	};
 
@@ -78,6 +80,7 @@ export function deactivate() {
 	if (!client) {
 		return undefined;
 	}
+  fsWatcher.dispose();
 	return client.stop();
 }
 
