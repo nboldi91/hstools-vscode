@@ -19,6 +19,18 @@ export function activate(context: vscode.ExtensionContext) {
 	context.subscriptions.push(vscode.commands.registerCommand('hstools.cleanEntireDB', () => {
 		client.sendNotification("CleanDB");
 	}));
+	context.subscriptions.push(vscode.commands.registerCommand('hstools.findUnused', () => {
+		let unusedDefinitions = client.sendRequest("FindUnused");
+    unusedDefinitions.then(content => 
+      vscode.workspace.openTextDocument().then(doc =>
+        vscode.window.showTextDocument(doc).then(editor =>
+          editor.edit(editBuilder =>
+            editBuilder.insert(new vscode.Position(1,1), content as string)
+          )
+        )
+      )
+    );
+	}));
 	activateServer();
 }
 

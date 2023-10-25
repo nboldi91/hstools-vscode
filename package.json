@@ -22,6 +22,10 @@
       {
         "command": "hstools.cleanEntireDB",
         "title": "Clean the entire hstools database"
+      },
+      {
+        "command": "hstools.findUnused",
+        "title": "Find unused definitions"
       }
     ]
   },
