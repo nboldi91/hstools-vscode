@@ -23,17 +23,25 @@
         "command": "hstools.cleanEntireDB",
         "title": "Clean the entire hstools database"
       }
-    ]
-  },
-  "configuration": {
-    "type": "object",
-    "title": "Haskell",
-    "properties": {
-      "hstools.postgresqlConnectionString": {
-        "scope": "resource",
-        "type": "string",
-        "default": "",
-        "description": "Connection string to the backing PostgreSQL database"
+    ],
+    "configuration": {
+      "title": "Haskell",
+      "properties": {
+        "hstools.postgresqlConnectionString": {
+          "type": "string",
+          "default": "",
+          "description": "Connection string to the backing PostgreSQL database"
+        },
+        "hstools.verbosity": {
+          "enum": ["Silent", "Verbose", "Debug"],
+          "default": "Silent",
+          "description": "Verbosity level for the hstools server."
+        },
+        "hstools.logFilePath": {
+          "type": "string",
+          "default": ".hstools.log",
+          "description": "Log file path for the hstools server."
+        }
       }
     }
   },
