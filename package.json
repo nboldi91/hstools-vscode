@@ -21,7 +21,7 @@
     "commands": [
       {
         "command": "hstools.cleanEntireDB",
-        "title": "Clean the entire hstools database"
+        "title": "HsTools: Clean the entire database"
       }
     ],
     "configuration": {
@@ -32,12 +32,27 @@
           "default": "",
           "description": "Connection string to the backing PostgreSQL database"
         },
-        "hstools.verbosity": {
-          "enum": ["Silent", "Verbose", "Debug"],
-          "default": "Silent",
-          "description": "Verbosity level for the hstools server."
+        "hstools.logOptions.highLevel": {
+          "type": "boolean",
+          "default": false,
+          "description": "Log high-level information, like when modules are processed"
         },
-        "hstools.logFilePath": {
+        "hstools.logOptions.queries": {
+          "type": "boolean",
+          "default": false,
+          "description": "Log individual queries toward the database"
+        },
+        "hstools.logOptions.performance": {
+          "type": "boolean",
+          "default": false,
+          "description": "Log performance-related information, like execution times"
+        },
+        "hstools.logOptions.fullData": {
+          "type": "boolean",
+          "default": false,
+          "description": "Log the full data of the operations with each database record"
+        },
+        "hstools.logOptions.logFilePath": {
           "type": "string",
           "default": ".hstools.log",
           "description": "Log file path for the hstools server."
