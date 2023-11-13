@@ -22,6 +22,14 @@
       {
         "command": "hstools.cleanEntireDB",
         "title": "HsTools: Clean the entire database"
+      },
+      {
+        "command": "hstools.testRequest",
+        "title": "HsTools: Test request"
+      },
+      {
+        "command": "hstools.testNotification",
+        "title": "HsTools: Test notification"
       }
     ],
     "configuration": {
@@ -51,11 +59,6 @@
           "type": "boolean",
           "default": false,
           "description": "Log the full data of the operations with each database record"
-        },
-        "hstools.logOptions.logFilePath": {
-          "type": "string",
-          "default": ".hstools.log",
-          "description": "Log file path for the hstools server."
         }
       }
     }

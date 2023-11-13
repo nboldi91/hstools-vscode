@@ -19,6 +19,12 @@ export function activate(context: vscode.ExtensionContext) {
 	context.subscriptions.push(vscode.commands.registerCommand('hstools.cleanEntireDB', () => {
 		client.sendNotification("CleanDB");
 	}));
+	context.subscriptions.push(vscode.commands.registerCommand('hstools.testRequest', () => {
+		client.sendRequest("TestRequest").then(result => vscode.window.showInformationMessage(result as string));
+	}));
+	context.subscriptions.push(vscode.commands.registerCommand('hstools.testNotification', () => {
+		client.sendNotification("TestNotification");
+	}));
 	activateServer();
 }
 
@@ -70,6 +76,11 @@ function activateServer() {
     });
     updateStatusBarItem();
   })).then(() => updateStatusBarItem());
+
+  const channel = vscode.window.createOutputChannel("hstools", "haskell");
+  client.onReady().then(() => client.onNotification("window/logMessage", (flst: {message: string}) => {
+    channel.appendLine(flst.message);
+  }));
 	
 	// Start the client. This will also launch the server
 	client.start();
