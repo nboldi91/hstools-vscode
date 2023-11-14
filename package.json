@@ -2,7 +2,7 @@
   "name": "hstools-vscode",
   "displayName": "HsTools Haskell developer tools",
   "description": "Haskell developer tools",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "publisher": "BoldizsarNemeth",
   "engines": {
     "vscode": "^1.69.0"
